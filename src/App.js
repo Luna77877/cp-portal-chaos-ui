@@ -1,12 +1,16 @@
 import "./resources/static/css/layout.css";
-import Api from "./Api.js";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ExperimentList from "./components/ExperimentList";
+import Events from "./components/Events";
 
 function App() {
   return (
-    <div className="notice">
-      <h3>List</h3>
-      <Api></Api>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/cpchaosui/list" element={<ExperimentList />} />
+        <Route path="/cpchaosui/events" element={<Events />} />
+      </Routes>
+    </Router>
   );
 }
 

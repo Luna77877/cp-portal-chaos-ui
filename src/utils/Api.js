@@ -1,30 +1,41 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { CHAOS_API_BASE_URL, HOST_NAME, NAMESPACE } from "../config/config";
 
-export default function Api() {
-  const BASE_URL = "";
+export default function Api({ sessionToken }) {
+  const API_URL =
+    CHAOS_API_BASE_URL +
+    "/clusters/" +
+    HOST_NAME +
+    "/namespaces/" +
+    NAMESPACE +
+    "/experiments/events?event=True&limit=10&offset=0&searchName=";
+  console.log("sessionToken : ", sessionToken);
 
-  const TOKEN = "";
+  console.log("API_URL: ", API_URL);
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(BASE_URL, {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-        },
-      })
-      .then((response) => {
+    if (!sessionToken) return;
+
+    async function fetchData() {
+      try {
+        const response = await axios.get(API_URL, {
+          headers: {
+            Authorization: `Bearer ${sessionToken}`,
+          },
+        });
         setData(response.data);
         setLoading(false);
         console.log("data : ", response.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching data: ", error);
         setLoading(false);
-      });
+      }
+    }
+    fetchData();
   }, []);
 
   if (loading) {
