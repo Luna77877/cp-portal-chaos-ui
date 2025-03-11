@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { CHAOS_API_BASE_URL, HOST_NAME, NAMESPACE } from "../config/config";
 
-export default function Api({ sessionToken }) {
+export default function Api({ token }) {
   const API_URL =
     CHAOS_API_BASE_URL +
     "/clusters/" +
@@ -10,21 +10,20 @@ export default function Api({ sessionToken }) {
     "/namespaces/" +
     NAMESPACE +
     "/experiments/events?event=True&limit=10&offset=0&searchName=";
-  console.log("sessionToken : ", sessionToken);
-
+  console.log("token : ", token);
   console.log("API_URL: ", API_URL);
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!sessionToken) return;
+    if (!token) return;
 
     async function fetchData() {
       try {
         const response = await axios.get(API_URL, {
           headers: {
-            Authorization: `Bearer ${sessionToken}`,
+            Authorization: token,
           },
         });
         setData(response.data);
