@@ -1,16 +1,19 @@
 import "./resources/static/css/layout.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ExperimentList from "./components/ExperimentList";
 import Events from "./components/Events";
+import ExperimentDetail from "./components/ExperimentDetail";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter basename="/cpchaosui">
       <Routes>
-        <Route path="/cpchaosui/list" element={<ExperimentList />} />
-        <Route path="/cpchaosui/events" element={<Events />} />
+        <Route path="/" element={<ExperimentList />} />
+        <Route path="/list" element={<ExperimentList />} />
+        <Route path="/detail/:kind/:name" element={<ExperimentDetail />} />
+        <Route path="/events" element={<Events />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
