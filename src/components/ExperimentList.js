@@ -1,5 +1,5 @@
 import useApi from "../hooks/useApi";
-import { CHAOS_API_BASE_URL, HOST_NAME, NAMESPACE } from "../config/config";
+import { CHAOS_API_BASE_URL } from "../config/config";
 import { Link } from "react-router-dom";
 
 export default function ExperimentList() {
@@ -8,16 +8,12 @@ export default function ExperimentList() {
   let allItemCount = 0;
   let searchName = "";
 
+  const cluster = sessionStorage.getItem("cluster");
+  const namespace = sessionStorage.getItem("nameSpace");
+
   const apiUrl =
     CHAOS_API_BASE_URL +
-    HOST_NAME +
-    NAMESPACE +
-    "/experiments?&limit=" +
-    limit +
-    "&offset=" +
-    offset +
-    "&searchName=";
-
+    `/clusters/${cluster}/namespaces/${namespace}/experiments?limit=${limit}&offset=${offset}&searchName=`;
   const token = sessionStorage.getItem("token");
   const data = useApi({ apiUrl, token });
 
@@ -50,7 +46,9 @@ export default function ExperimentList() {
                   <td>-</td>
                   <td>{item.kind}</td>
                   <td>
-                    <Link to={`/detail/${item.kind}/${item.metadata.name}`}>
+                    <Link
+                      to={`/detail/${item.kind}/${item.metadata.namespace}/${item.metadata.name}`}
+                    >
                       {item.metadata.name}
                     </Link>
                   </td>

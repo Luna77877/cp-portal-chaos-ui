@@ -1,5 +1,5 @@
 import useApi from "../hooks/useApi";
-import { CHAOS_API_BASE_URL, HOST_NAME, NAMESPACE } from "../config/config";
+import { CHAOS_API_BASE_URL } from "../config/config";
 
 export default function Events() {
   let limit = 10;
@@ -7,18 +7,16 @@ export default function Events() {
   let allItemCount = 0;
   let searchName = "";
 
-  const apiUrl =
+  const chaosEventApiUrl =
     CHAOS_API_BASE_URL +
-    HOST_NAME +
-    NAMESPACE +
-    "/experiments/events?event=True&limit=" +
-    limit +
-    "&offset=" +
-    offset +
-    "&searchName=";
+    `/clusters/${sessionStorage.getItem(
+      "cluster"
+    )}/namespaces/${sessionStorage.getItem(
+      "nameSpace"
+    )}/experiments/events?event=True&limit=${limit}&offset=${offset}&searchName=`;
 
   const token = sessionStorage.getItem("token");
-  const data = useApi({ apiUrl, token });
+  const data = useApi({ chaosEventApiUrl, token });
 
   return (
     <div className="notice">
